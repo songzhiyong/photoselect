@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * 
  * ClassName:CategoryInfo <br>
- * Function: TODO ADD FUNCTION <br>
+ * Function: <br>
  * 
  * @author Administrator
  * @version
