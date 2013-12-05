@@ -2,13 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
     tools:context=".MainActivity" >
 
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_top" >
+        android:background="@color/top_bg_color"
+        android:padding="8dp" >
 
         <TextView
             android:id="@+id/textView1"
@@ -17,7 +19,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/album"
-            android:textColor="@android:color/white"
+            android:textColor="@color/top_text_color"
             android:textSize="20sp" />
 
         <Button
@@ -26,18 +28,28 @@
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/btn_bg"
-            android:text="@string/confirm"
-            android:textColor="@android:color/white"
+            android:background="@null"
+            android:visibility="invisible"
+            android:text="@string/next_step"
+            android:textColor="@color/top_text_color"
             android:textSize="12sp" />
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/top"
+        android:background="@color/divider" >
+    </FrameLayout>
 
     <ListView
         android:id="@+id/lv_photoes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/top" >
+        android:dividerHeight="1dp"
+        android:divider="@color/divider"
+        android:layout_below="@id/grey" >
     </ListView>
 
 </RelativeLayout>

@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_top" >
+        android:background="@color/top_bg_color"
+        android:padding="8dp" >
 
         <Button
             android:id="@+id/btn_back"
@@ -16,12 +18,10 @@
             android:layout_height="32dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:background="@drawable/btn_back_bg"
+            android:background="@null"
             android:gravity="center"
-            android:paddingLeft="10dp"
             android:text="@string/back"
-            android:textColor="@android:color/white"
+            android:textColor="@color/top_text_color"
             android:textSize="12sp" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/album"
-            android:textColor="@android:color/white"
+            android:textColor="@color/top_text_color"
             android:textSize="20sp" />
 
         <Button
@@ -39,13 +39,19 @@
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/btn_bg"
+            android:background="@null"
             android:gravity="center"
-            android:text="@string/confirm"
-            android:textColor="@android:color/white"
+            android:text="@string/next_step"
+            android:textColor="@color/top_text_color"
             android:textSize="12sp" />
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" >
+    </FrameLayout>
 
     <GridView
         android:id="@+id/gd_photoes"
@@ -61,7 +67,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_top"
         android:gravity="center"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/btn_preview"
