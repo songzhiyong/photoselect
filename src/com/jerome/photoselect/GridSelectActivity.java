@@ -14,6 +14,7 @@ import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -35,11 +36,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
  * @see
  */
 public class GridSelectActivity extends Activity {
+	private static final int REQUEST_CODE_PRE = 1;
+
 	private GridView mGridView;
 	private CustomGridAdapter mAdapter;
 	private CategoryInfo categoryInfo;
 	private ArrayList<String> results;
 	private int width;
+	private Button btnPreview;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class GridSelectActivity extends Activity {
 	}
 
 	private void initTop() {
+		btnPreview = (Button) findViewById(R.id.btn_preview);
 		findViewById(R.id.btn_ok).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,6 +74,15 @@ public class GridSelectActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				finish();
+			}
+		});
+		btnPreview.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent data = new Intent(GridSelectActivity.this,
+						ImagePreviewActivity.class);
+				data.putExtra("selected", results);
+				startActivityForResult(data, REQUEST_CODE_PRE);
 			}
 		});
 	}
@@ -92,6 +106,10 @@ public class GridSelectActivity extends Activity {
 					results.add(path);
 					checkBox.setChecked(true);
 				}
+				int resultSize = results.size();
+				btnPreview.setEnabled(resultSize != 0);
+				btnPreview.setText(getResources().getString(R.string.preview)
+						+ ((resultSize == 0) ? "" : "(" + results.size() + ")"));
 			}
 		});
 	}
