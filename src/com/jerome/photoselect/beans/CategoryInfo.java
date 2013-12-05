@@ -3,6 +3,17 @@ package com.jerome.photoselect.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * 
+ * ClassName:CategoryInfo <br>
+ * Function: TODO ADD FUNCTION <br>
+ * 
+ * @author Administrator
+ * @version
+ * @Date 2013 2013-12-5 上午11:25:27
+ * 
+ * @see
+ */
 public class CategoryInfo implements Serializable {
 	private static final long serialVersionUID = -7835215676193811600L;
 	private int id;
