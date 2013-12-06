@@ -63,10 +63,10 @@ public class GridSelectActivity extends Activity {
 		findViewById(R.id.btn_ok).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Intent data = new Intent();
-//				data.putExtra("result", results);
-//				setResult(RESULT_OK, data);
-//				finish();
+				// Intent data = new Intent();
+				// data.putExtra("result", results);
+				// setResult(RESULT_OK, data);
+				// finish();
 				Intent data = new Intent(GridSelectActivity.this,
 						ImagePreviewActivity.class);
 				data.putExtra("selected", results);
@@ -121,6 +121,22 @@ public class GridSelectActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			setResult(resultCode, data);
+			finish();
+		} else if (resultCode == RESULT_CANCELED) {
+			setResult(RESULT_CANCELED);
+			finish();
+		} else if (resultCode == RESULT_FIRST_USER) {
+			results.clear();
+			results.addAll(data.getStringArrayListExtra("result"));
+			mAdapter.notifyDataSetChanged();
+		}
 	}
 
 	class CustomGridAdapter extends BaseAdapter {
