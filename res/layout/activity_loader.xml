@@ -43,13 +43,13 @@
         android:background="@color/divider" >
     </FrameLayout>
 
-    <ListView
-        android:id="@+id/lv_photoes"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dp"
         android:divider="@color/divider"
         android:layout_below="@id/grey" >
-    </ListView>
+    </FrameLayout>
 
 </RelativeLayout>

@@ -67,8 +67,8 @@
         android:layout_below="@id/grey"
         android:padding="10dip"
         app:centered="true"
-        app:fillColor="#FF000000"
-        app:pageColor="#ffc2c2c2"
+        app:fillColor="#000"
+        app:pageColor="#fff"
         app:radius="4dp" >
     </com.viewpagerindicator.CirclePageIndicator>
 

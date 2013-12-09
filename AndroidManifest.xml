@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/MyTheme" >
         <activity
-            android:name="com.jerome.photoselect.MainActivity"
+            android:name="com.jerome.photoselect.LoaderLoadActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

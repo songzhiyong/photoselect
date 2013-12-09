@@ -63,10 +63,6 @@ public class GridSelectActivity extends Activity {
 		findViewById(R.id.btn_ok).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// Intent data = new Intent();
-				// data.putExtra("result", results);
-				// setResult(RESULT_OK, data);
-				// finish();
 				Intent data = new Intent(GridSelectActivity.this,
 						ImagePreviewActivity.class);
 				data.putExtra("selected", results);
@@ -74,7 +70,6 @@ public class GridSelectActivity extends Activity {
 			}
 		});
 		findViewById(R.id.btn_back).setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				finish();

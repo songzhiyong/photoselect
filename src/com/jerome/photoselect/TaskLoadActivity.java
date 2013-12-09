@@ -5,26 +5,21 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jerome.photoselect.adapter.CustomAdapter;
 import com.jerome.photoselect.beans.CategoryInfo;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.jerome.photoselect.biz.ScanPhotoTask;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class MainActivity extends Activity {
+public class TaskLoadActivity extends Activity {
 	private static final int REQUEST_CODE_SELECT_PHOTOES = 1;
 
 	private ListView mListView;
@@ -49,7 +44,7 @@ public class MainActivity extends Activity {
 	private void initListView() {
 		mDatas = new ArrayList<CategoryInfo>();
 		mListView = (ListView) findViewById(R.id.lv_photoes);
-		mAdapter = new CustomAdapter();
+		mAdapter = new CustomAdapter(mDatas);
 		mListView.setAdapter(mAdapter);
 		ScanPhotoTask task = new ScanPhotoTask(this, mDatas, mAdapter);
 		task.execute();
@@ -58,7 +53,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Intent intent = new Intent(MainActivity.this,
+				Intent intent = new Intent(TaskLoadActivity.this,
 						GridSelectActivity.class);
 				intent.putExtra("category", mDatas.get(position));
 				intent.putExtra("selected", selectedPhotoes);
@@ -85,62 +80,4 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	class CustomAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return mDatas.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return mDatas.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View row = convertView;
-			ViewHolder holder = null;
-			if (row == null) {
-				row = LayoutInflater.from(parent.getContext()).inflate(
-						R.layout.item_category, parent, false);
-				holder = new ViewHolder(row);
-				row.setTag(holder);
-			} else {
-				holder = (ViewHolder) row.getTag();
-			}
-			CategoryInfo categoryInfo = mDatas.get(position);
-			holder.nameView.setText(categoryInfo.getName() + "("
-					+ categoryInfo.getPhotoNum() + ")");
-
-			if (TextUtils.isEmpty(categoryInfo.getThumbnailPath())) {
-				holder.iconView.setImageResource(R.drawable.middle_img_default);
-			} else {
-				DisplayImageOptions options = new DisplayImageOptions.Builder()
-						.showStubImage(R.drawable.middle_img_default)
-						.showImageForEmptyUri(R.drawable.middle_img_default)
-						.showImageOnFail(R.drawable.middle_img_default).build();
-				loader.displayImage(
-						"file://" + categoryInfo.getThumbnailPath(),
-						holder.iconView, options);
-			}
-			return row;
-		}
-
-		class ViewHolder {
-			TextView nameView;
-			ImageView iconView;
-
-			ViewHolder(View row) {
-				nameView = (TextView) row.findViewById(R.id.tv_name);
-				iconView = (ImageView) row.findViewById(R.id.iv_thumbnail);
-			}
-		}
-
-	}
 }

@@ -7,4 +7,9 @@
     <string name="album">相册</string>
     <string name="preview">预览</string>
 	<string name="elapse">时光</string>
+	<string name="confirm">确定</string>
+	<string name="next_step">下一步</string>
+	<string name="back">返回</string>
+	<string name="cancel">取消</string>
+	<string name="delete">删除</string>
 </resources>

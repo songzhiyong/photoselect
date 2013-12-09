@@ -1,15 +1,16 @@
-package com.jerome.photoselect;
+package com.jerome.photoselect.biz;
 
 import java.util.ArrayList;
-
-import com.jerome.photoselect.MainActivity.CustomAdapter;
-import com.jerome.photoselect.beans.CategoryInfo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+
+import com.jerome.photoselect.TaskLoadActivity;
+import com.jerome.photoselect.adapter.CustomAdapter;
+import com.jerome.photoselect.beans.CategoryInfo;
 
 public class ScanPhotoTask extends
 		AsyncTask<Void, Void, ArrayList<CategoryInfo>> {
@@ -38,7 +39,7 @@ public class ScanPhotoTask extends
 	protected void onPostExecute(ArrayList<CategoryInfo> result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
-		((MainActivity) context).notifyDataSetChanged(result);
+		((TaskLoadActivity) context).notifyDataSetChanged(result);
 	}
 
 	private ArrayList<CategoryInfo> getPhotoes() {
