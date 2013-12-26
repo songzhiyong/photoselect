@@ -95,13 +95,16 @@ public class GridSelectActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				System.out.println("position=" + position);
-				String path = categoryInfo.getPhotoPaths().get(position);
+				String path = categoryInfo.getPhotoPaths().get(position)
+						.getPath();
 				CheckBox checkBox = (CheckBox) view
 						.findViewById(R.id.cb_selected);
-				if (results.contains(path)) {
+				if (categoryInfo.getPhotoPaths().get(position).isState()) {
 					results.remove(path);
+					categoryInfo.getPhotoPaths().get(position).setState(false);
 					checkBox.setChecked(false);
 				} else {
+					categoryInfo.getPhotoPaths().get(position).setState(true);
 					results.add(path);
 					checkBox.setChecked(true);
 				}
@@ -143,7 +146,7 @@ public class GridSelectActivity extends Activity {
 
 		@Override
 		public Object getItem(int position) {
-			return categoryInfo.getPhotoPaths().get(position);
+			return categoryInfo.getPhotoPaths().get(position).getPath();
 		}
 
 		@Override
@@ -169,11 +172,8 @@ public class GridSelectActivity extends Activity {
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			if (results.contains(getItem(position))) {
-				holder.cbSelected.setChecked(true);
-			} else {
-				holder.cbSelected.setChecked(false);
-			}
+			holder.cbSelected.setChecked(categoryInfo.getPhotoPaths()
+					.get(position).isState());
 			DisplayImageOptions options = new DisplayImageOptions.Builder()
 					.showStubImage(R.drawable.middle_img_default)
 					.showImageForEmptyUri(R.drawable.middle_img_default)

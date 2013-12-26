@@ -21,13 +21,13 @@ public class CategoryInfo implements Serializable {
 	private String name;
 	private String thumbnailPath;
 	private int photoNum;
-	private ArrayList<String> photoPaths;
+	private ArrayList<PhotoInfo> photoPaths;
 
 	public CategoryInfo(int id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.photoPaths = new ArrayList<String>();
+		this.photoPaths = new ArrayList<PhotoInfo>();
 	}
 
 	public int getId() {
@@ -75,12 +75,13 @@ public class CategoryInfo implements Serializable {
 	}
 
 	public void addPhoto(String path) {
-		if (!photoPaths.contains(path)) {
-			photoPaths.add(path);
+		PhotoInfo item = new PhotoInfo(path);
+		if (!photoPaths.contains(item)) {
+			photoPaths.add(item);
 		}
 	}
 
-	public ArrayList<String> getPhotoPaths() {
+	public ArrayList<PhotoInfo> getPhotoPaths() {
 		return photoPaths;
 	}
 

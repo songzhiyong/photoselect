@@ -48,21 +48,21 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  */
 public class LoaderLoadActivity extends FragmentActivity {
 	private static final int REQUEST_CODE_SELECT_PHOTOES = 1;
+
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		ImageLoaderConfiguration config = ImageLoaderConfiguration
 				.createDefault(this);
 		ImageLoader.getInstance().init(config);
-		
+
 		FragmentManager fm = getSupportFragmentManager();
 		setContentView(R.layout.activity_loader);
 		FolderListFragment list = new FolderListFragment();
 		fm.beginTransaction().add(R.id.content, list).commit();
 	}
-	
 
 	public static class FolderListFragment extends ListFragment implements
 			LoaderManager.LoaderCallbacks<List<CategoryInfo>> {
@@ -87,9 +87,9 @@ public class LoaderLoadActivity extends FragmentActivity {
 
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
-			Intent intent = new Intent(getActivity(),
-					GridSelectActivity.class);
-			intent.putExtra("category", (CategoryInfo)mAdapter.getItem(position));
+			Intent intent = new Intent(getActivity(), GridSelectActivity.class);
+			intent.putExtra("category",
+					(CategoryInfo) mAdapter.getItem(position));
 			intent.putExtra("selected", selectedPhotoes);
 			startActivityForResult(intent, REQUEST_CODE_SELECT_PHOTOES);
 		}
@@ -114,17 +114,22 @@ public class LoaderLoadActivity extends FragmentActivity {
 		public void onLoaderReset(Loader<List<CategoryInfo>> loader) {
 			mAdapter.setData(null);
 		}
+
 		@Override
-		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		public void onActivityResult(int requestCode, int resultCode,
+				Intent data) {
 			super.onActivityResult(requestCode, resultCode, data);
 			if (data != null) {
 				selectedPhotoes.clear();
 				selectedPhotoes.addAll(data.getStringArrayListExtra("result"));
 				Log.i("result", "" + data.getSerializableExtra("result"));
-				Toast.makeText(getActivity(), "" + data.getSerializableExtra("result"),
+				Toast.makeText(getActivity(),
+						"" + data.getSerializableExtra("result"),
 						Toast.LENGTH_SHORT).show();
+				data.setClass(getActivity(), CombineActivity.class);
+				startActivity(data);
 			}
 		}
-		
+
 	}
 }
