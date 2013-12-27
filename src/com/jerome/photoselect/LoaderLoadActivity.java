@@ -126,7 +126,7 @@ public class LoaderLoadActivity extends FragmentActivity {
 				Toast.makeText(getActivity(),
 						"" + data.getSerializableExtra("result"),
 						Toast.LENGTH_SHORT).show();
-				data.setClass(getActivity(), CombineActivity.class);
+				data.setClass(getActivity(), PhotoSortrActivity.class);
 				startActivity(data);
 			}
 		}
