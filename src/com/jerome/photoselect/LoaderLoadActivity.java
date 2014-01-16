@@ -19,21 +19,9 @@ import android.widget.Toast;
 import com.jerome.photoselect.adapter.CustomAdapter;
 import com.jerome.photoselect.beans.CategoryInfo;
 import com.jerome.photoselect.biz.ImageFolderListLoader;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-/**
- * LoderCursor.java
- * 
- *
- * Function： TODO 
- *
- *   ver     date      		author
- * ──────────────────────────────────
- *   		 2013-12-9 		Administrator
- *
- * Copyright (c) 2013, JEROME All Rights Reserved.
- */
 
 /**
  * ClassName:LoderCursor<br>
@@ -53,9 +41,10 @@ public class LoaderLoadActivity extends FragmentActivity {
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-		ImageLoaderConfiguration config = ImageLoaderConfiguration
-				.createDefault(this);
+		int size = getResources().getDisplayMetrics().widthPixels / 3;
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				this).memoryCache(new WeakMemoryCache())
+				.denyCacheImageMultipleSizesInMemory().build();
 		ImageLoader.getInstance().init(config);
 
 		FragmentManager fm = getSupportFragmentManager();

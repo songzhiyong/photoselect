@@ -5,24 +5,17 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AbsListView.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 
+import com.jerome.photoselect.adapter.CustomGridAdapter;
 import com.jerome.photoselect.beans.CategoryInfo;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.jerome.photoselect.beans.PhotoInfo;
 
 /**
  * 
@@ -42,7 +35,7 @@ public class GridSelectActivity extends Activity {
 	private CustomGridAdapter mAdapter;
 	private CategoryInfo categoryInfo;
 	private ArrayList<String> results;
-	private int width;
+
 	private Button btnPreview;
 
 	@Override
@@ -53,7 +46,6 @@ public class GridSelectActivity extends Activity {
 		results = getIntent().getStringArrayListExtra("selected");
 		categoryInfo = (CategoryInfo) getIntent().getSerializableExtra(
 				"category");
-		width = getResources().getDisplayMetrics().widthPixels;
 		initTop();
 		initGridView();
 	}
@@ -88,26 +80,30 @@ public class GridSelectActivity extends Activity {
 
 	private void initGridView() {
 		mGridView = (GridView) findViewById(R.id.gd_photoes);
-		mAdapter = new CustomGridAdapter();
+		// mGridView.setDrawSelectorOnTop(true);
+		// mGridView.setSelector(getResources().getDrawable(
+		// R.drawable.grid_selector));
+		mAdapter = new CustomGridAdapter(this, categoryInfo.getPhotoPaths());
 		mGridView.setAdapter(mAdapter);
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				PhotoInfo itemInfo = categoryInfo.getPhotoPaths().get(position);
 				System.out.println("position=" + position);
-				String path = categoryInfo.getPhotoPaths().get(position)
-						.getPath();
-				CheckBox checkBox = (CheckBox) view
-						.findViewById(R.id.cb_selected);
-				if (categoryInfo.getPhotoPaths().get(position).isState()) {
+				String path = itemInfo.getPath();
+				// CheckBox checkBox = (CheckBox) view
+				// .findViewById(R.id.cb_selected);
+				if (itemInfo.isState()) {
 					results.remove(path);
-					categoryInfo.getPhotoPaths().get(position).setState(false);
-					checkBox.setChecked(false);
+					itemInfo.setState(false);
+					// checkBox.setChecked(false);
 				} else {
-					categoryInfo.getPhotoPaths().get(position).setState(true);
+					itemInfo.setState(true);
 					results.add(path);
-					checkBox.setChecked(true);
+					// checkBox.setChecked(true);
 				}
+				mAdapter.notifyDataSetChanged();
 				int resultSize = results.size();
 				btnPreview.setEnabled(resultSize != 0);
 				btnPreview.setText(getResources().getString(R.string.preview)
@@ -137,55 +133,4 @@ public class GridSelectActivity extends Activity {
 		}
 	}
 
-	class CustomGridAdapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return categoryInfo.getPhotoPaths().size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return categoryInfo.getPhotoPaths().get(position).getPath();
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			ViewHolder holder = null;
-			if (convertView == null) {
-				convertView = LayoutInflater.from(parent.getContext()).inflate(
-						R.layout.item_photoes, null);
-				holder = new ViewHolder();
-				LayoutParams params = new LayoutParams(width / 3, width / 3);
-				convertView.setLayoutParams(params);
-				holder.imageView = (ImageView) convertView
-						.findViewById(R.id.iv_photo);
-				holder.cbSelected = (CheckBox) convertView
-						.findViewById(R.id.cb_selected);
-				holder.imageView.setScaleType(ScaleType.CENTER_CROP);
-				convertView.setTag(holder);
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
-			holder.cbSelected.setChecked(categoryInfo.getPhotoPaths()
-					.get(position).isState());
-			DisplayImageOptions options = new DisplayImageOptions.Builder()
-					.showStubImage(R.drawable.middle_img_default)
-					.showImageForEmptyUri(R.drawable.middle_img_default)
-					.showImageOnFail(R.drawable.middle_img_default).build();
-			ImageLoader.getInstance().displayImage(
-					"file://" + getItem(position), holder.imageView, options);
-			return convertView;
-		}
-
-		class ViewHolder {
-			ImageView imageView;
-			CheckBox cbSelected;
-		}
-	}
 }
