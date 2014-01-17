@@ -149,7 +149,6 @@ public class MultiPhotoSelectActivity extends Activity {
 					CheckBox checkBox = (CheckBox) v
 							.findViewById(R.id.checkBox1);
 					int selectedSize = imageAdapter.getCheckedItems().size();
-					btnOk.setText("OK(" + selectedSize + ")");
 					if (selectedSize >= max) {
 						if (checkBox.isChecked()) {
 							checkBox.setChecked(!checkBox.isChecked());
@@ -204,6 +203,8 @@ public class MultiPhotoSelectActivity extends Activity {
 					boolean isChecked) {
 				mSparseBooleanArray.put((Integer) buttonView.getTag(),
 						isChecked);
+				int selectedSize = imageAdapter.getCheckedItems().size();
+				btnOk.setText("OK(" + selectedSize + ")");
 			}
 		};
 	}

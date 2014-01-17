@@ -29,8 +29,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import com.jerome.widgets.CustomPhotoSortrView;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -43,6 +41,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
+
+import com.jerome.widgets.CustomPhotoSortrView;
 
 public class PhotoSortrActivity extends Activity {
 
