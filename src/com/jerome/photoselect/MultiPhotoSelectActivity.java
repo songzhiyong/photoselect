@@ -11,11 +11,13 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -37,6 +39,7 @@ public class MultiPhotoSelectActivity extends Activity {
 	private DisplayImageOptions options;
 	private ImageAdapter imageAdapter;
 	private ImageLoader imageLoader;
+	private Button btnOk;
 	private int max;
 
 	@Override
@@ -56,6 +59,7 @@ public class MultiPhotoSelectActivity extends Activity {
 				.showImageForEmptyUri(R.drawable.middle_img_default)
 				.cacheInMemory().cacheOnDisc().build();
 		imageAdapter = new ImageAdapter(this, imageUrls);
+		btnOk = (Button) findViewById(R.id.btn_ok);
 		GridView gridView = (GridView) findViewById(R.id.gridview);
 		gridView.setAdapter(imageAdapter);
 	}
@@ -138,24 +142,23 @@ public class MultiPhotoSelectActivity extends Activity {
 				convertView = mInflater.inflate(R.layout.row_multiphoto_item,
 						null);
 			}
-			convertView.setOnTouchListener(new OnTouchListener() {
+			convertView.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public boolean onTouch(View v, MotionEvent event) {
+				public void onClick(View v) {
 					CheckBox checkBox = (CheckBox) v
 							.findViewById(R.id.checkBox1);
-					if (((CheckBox) checkBox).isChecked()) {
-						checkBox.setChecked(!checkBox.isChecked());
-						return false;
-					}
-					if (max <= imageAdapter.getCheckedItems().size()) {
+					int selectedSize = imageAdapter.getCheckedItems().size();
+					btnOk.setText("OK(" + selectedSize + ")");
+					if (selectedSize >= max) {
+						if (checkBox.isChecked()) {
+							checkBox.setChecked(!checkBox.isChecked());
+						}
 						Toast.makeText(MultiPhotoSelectActivity.this,
 								"超过图片最大数量", Toast.LENGTH_SHORT).show();
-						return true;
 					} else {
 						checkBox.setChecked(!checkBox.isChecked());
 					}
-					return false;
 				}
 			});
 			final CheckBox mCheckBox = (CheckBox) convertView
