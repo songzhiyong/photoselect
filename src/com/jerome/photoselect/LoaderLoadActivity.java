@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.jerome.photoselect.adapter.CustomAdapter;
 import com.jerome.photoselect.beans.CategoryInfo;
 import com.jerome.photoselect.biz.ImageFolderListLoader;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -43,8 +43,14 @@ public class LoaderLoadActivity extends FragmentActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		int size = getResources().getDisplayMetrics().widthPixels / 3;
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				this).memoryCache(new WeakMemoryCache())
-				.denyCacheImageMultipleSizesInMemory().build();
+				getApplicationContext()).threadPoolSize(3)
+				.threadPriority(Thread.NORM_PRIORITY - 2)
+				.memoryCacheSize(1500000)
+				// 1.5 Mb
+				.denyCacheImageMultipleSizesInMemory()
+				.discCacheFileNameGenerator(new Md5FileNameGenerator()).build();
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
 		ImageLoader.getInstance().init(config);
 
 		FragmentManager fm = getSupportFragmentManager();
@@ -76,7 +82,8 @@ public class LoaderLoadActivity extends FragmentActivity {
 
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
-			Intent intent = new Intent(getActivity(), GridSelectActivity.class);
+			Intent intent = new Intent(getActivity(),
+					MultiPhotoSelectActivity.class);
 			intent.putExtra("category",
 					(CategoryInfo) mAdapter.getItem(position));
 			intent.putExtra("selected", selectedPhotoes);

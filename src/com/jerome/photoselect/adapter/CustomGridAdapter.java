@@ -16,7 +16,6 @@ import android.widget.ImageView.ScaleType;
 
 import com.jerome.photoselect.R;
 import com.jerome.photoselect.beans.PhotoInfo;
-import com.loopj.android.http.AsyncHttpClient;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;

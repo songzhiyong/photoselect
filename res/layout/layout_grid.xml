@@ -43,7 +43,8 @@
             android:gravity="center"
             android:text="@string/next_step"
             android:textColor="@color/top_text_color"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <FrameLayout
@@ -66,20 +67,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_top"
-        android:gravity="center"
         android:padding="5dp"
-        android:visibility="gone" >
+        android:visibility="visible" >
 
         <Button
             android:id="@+id/btn_preview"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
             android:layout_marginRight="8dp"
             android:background="@drawable/btn_bg"
             android:gravity="center"
             android:text="@string/preview"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/btn_bg"
+            android:gravity="center"
+            android:text="@string/confirm"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_alignLeft="@id/btn_confirm"
+            android:layout_alignTop="@id/btn_confirm"
+            android:background="@drawable/ic_unread_bg"
+            android:text="0" />
     </RelativeLayout>
 
 </LinearLayout>

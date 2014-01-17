@@ -36,6 +36,7 @@ import android.view.View;
  * @see
  */
 public class BitmapUtils {
+	
 	public static Bitmap combinedTopBottomBmp(Bitmap topBmp, Bitmap bottomBmp) {
 		if (topBmp == null) {
 			return topBmp;

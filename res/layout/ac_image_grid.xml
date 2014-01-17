@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/top_bg_color"
+        android:padding="8dp" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/back"
+            android:textColor="@color/top_text_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/album"
+            android:textColor="@color/top_text_color"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/next_step"
+            android:textColor="@color/top_text_color"
+            android:textSize="12sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/button1"
+        android:layout_below="@id/top"
+        android:gravity="center"
+        android:horizontalSpacing="1dip"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="1dip" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentRight="true"
+        android:onClick="btnChoosePhotosClick"
+        android:text="OK" />
+     <Button
+        android:id="@+id/btn_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:onClick="btnPreviewClick"
+        android:text="Preview" />
+    
+
+</RelativeLayout>
