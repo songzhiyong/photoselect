@@ -27,9 +27,11 @@
         </activity>
         <activity android:name="GridSelectActivity" >
         </activity>
-          <activity android:name="MultiPhotoSelectActivity" >
+        <activity android:name="MultiPhotoSelectActivity" >
         </activity>
         <activity android:name="ImagePreviewActivity" >
+        </activity>
+        <activity android:name="ImagePreviewActivity2" >
         </activity>
         <activity android:name="CombineActivity" >
         </activity>

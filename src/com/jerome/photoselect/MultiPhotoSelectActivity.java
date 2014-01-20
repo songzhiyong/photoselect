@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.jerome.photoselect.beans.CategoryInfo;
-import com.jerome.photoselect.beans.PhotoInfo;
+import com.jerome.photoselect.biz.ScanTask;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
@@ -34,34 +35,49 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 /**
  */
 public class MultiPhotoSelectActivity extends Activity {
+	private static final int REQUEST_CODE_PRE = 1;
 
 	private ArrayList<String> imageUrls;
 	private DisplayImageOptions options;
 	private ImageAdapter imageAdapter;
 	private ImageLoader imageLoader;
-	private Button btnOk;
+	private Button btnOk, btnBack;
 	private int max;
+	private Toast toast;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ac_image_grid);
+		toast = Toast.makeText(MultiPhotoSelectActivity.this, "超过图片最大数量",
+				Toast.LENGTH_SHORT);
 		imageLoader = ImageLoader.getInstance();
 		this.imageUrls = new ArrayList<String>();
 		CategoryInfo categoryInfo = (CategoryInfo) getIntent()
 				.getSerializableExtra("category");
-		max = getIntent().getIntExtra("max", 3);
-		for (PhotoInfo info : categoryInfo.getPhotoPaths()) {
-			this.imageUrls.add(info.getPath());
-		}
+		String path = categoryInfo.getId() + "";
+
+		max = getIntent().getIntExtra("max", 5);
+		// for (PhotoInfo info : categoryInfo.getPhotoPaths()) {
+		// this.imageUrls.add(info.getPath());
+		// }
 		options = new DisplayImageOptions.Builder()
 				.showStubImage(R.drawable.middle_img_default)
 				.showImageForEmptyUri(R.drawable.middle_img_default)
 				.cacheInMemory().cacheOnDisc().build();
 		imageAdapter = new ImageAdapter(this, imageUrls);
 		btnOk = (Button) findViewById(R.id.btn_ok);
+		btnBack = (Button) findViewById(R.id.btn_back);
+		btnBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		GridView gridView = (GridView) findViewById(R.id.gridview);
 		gridView.setAdapter(imageAdapter);
+		ScanTask task = new ScanTask(path, this, imageUrls, imageAdapter);
+		task.execute();
 	}
 
 	@Override
@@ -81,15 +97,33 @@ public class MultiPhotoSelectActivity extends Activity {
 	}
 
 	public void btnPreviewClick(View v) {
-
+		Intent data = new Intent(MultiPhotoSelectActivity.this,
+				ImagePreviewActivity.class);
+		data.putExtra("selected", imageAdapter.getCheckedItems());
+		startActivityForResult(data, REQUEST_CODE_PRE);
+	}
+	public void btnPreview2Click(View v) {
+		Intent data = new Intent(MultiPhotoSelectActivity.this,
+				ImagePreviewActivity2.class);
+		data.putExtra("selected", imageAdapter.getCheckedItems());
+		startActivityForResult(data, REQUEST_CODE_PRE);
 	}
 
-	/*
-	 * private void startImageGalleryActivity(int position) { Intent intent =
-	 * new Intent(this, ImagePagerActivity.class); intent.putExtra(Extra.IMAGES,
-	 * imageUrls); intent.putExtra(Extra.IMAGE_POSITION, position);
-	 * startActivity(intent); }
-	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			setResult(resultCode, data);
+			finish();
+		} else if (resultCode == RESULT_CANCELED) {
+			setResult(RESULT_CANCELED);
+			finish();
+		} else if (resultCode == RESULT_FIRST_USER) {
+			ArrayList<String> selected = data.getStringArrayListExtra("result");
+			imageAdapter.setCheckedItems(selected);
+			imageAdapter.notifyDataSetChanged();
+		}
+	}
 
 	public class ImageAdapter extends BaseAdapter {
 
@@ -116,8 +150,14 @@ public class MultiPhotoSelectActivity extends Activity {
 					mTempArry.add(mList.get(i));
 				}
 			}
-
 			return mTempArry;
+		}
+
+		public void setCheckedItems(ArrayList<String> items) {
+			mSparseBooleanArray.clear();
+			for (int i = 0; i < items.size(); i++) {
+				mSparseBooleanArray.put(mList.indexOf(items.get(i)), true);
+			}
 		}
 
 		@Override
@@ -152,9 +192,9 @@ public class MultiPhotoSelectActivity extends Activity {
 					if (selectedSize >= max) {
 						if (checkBox.isChecked()) {
 							checkBox.setChecked(!checkBox.isChecked());
+						} else {
+							toast.show();
 						}
-						Toast.makeText(MultiPhotoSelectActivity.this,
-								"超过图片最大数量", Toast.LENGTH_SHORT).show();
 					} else {
 						checkBox.setChecked(!checkBox.isChecked());
 					}
@@ -185,8 +225,7 @@ public class MultiPhotoSelectActivity extends Activity {
 						return false;
 					}
 					if (max <= imageAdapter.getCheckedItems().size()) {
-						Toast.makeText(MultiPhotoSelectActivity.this,
-								"超过图片最大数量", Toast.LENGTH_SHORT).show();
+						toast.show();
 						return true;
 					}
 					return false;

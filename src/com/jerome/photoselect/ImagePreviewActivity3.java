@@ -20,14 +20,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,23 +42,22 @@ import com.viewpagerindicator.CirclePageIndicator;
  * 
  * @see
  */
-public class ImagePreviewActivity extends Activity {
+public class ImagePreviewActivity3 extends Activity {
 
 	private ViewPager mPager;
 	private CirclePageIndicator mIndicator;
-	private TextView tvCount, tvTitle;
-	private CheckBox cbSelected;
 
 	private SimplePagerAdapter mAdapter;
 	private ArrayList<String> selected;
-	private SparseBooleanArray selectedArray;
+
+	private TextView tvTitle;
 	private int currentPos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.layout_preview);
+		selected = getIntent().getStringArrayListExtra("selected");
+		setContentView(R.layout.layout_preview2);
 		initTop();
 		initPager();
 		initBtns();
@@ -70,13 +65,12 @@ public class ImagePreviewActivity extends Activity {
 	}
 
 	private void initTop() {
-		tvCount = (TextView) findViewById(R.id.tv_num);
 		tvTitle = (TextView) findViewById(R.id.textView1);
 		findViewById(R.id.btn_back).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent data = new Intent();
-				data.putStringArrayListExtra("result", getCheckedItems());
+				data.putStringArrayListExtra("result", selected);
 				setResult(RESULT_FIRST_USER, data);
 				finish();
 			}
@@ -84,44 +78,23 @@ public class ImagePreviewActivity extends Activity {
 	}
 
 	private void initBtns() {
-		cbSelected = ((CheckBox) findViewById(R.id.cb_select));
-		cbSelected.setChecked(true);
-		cbSelected.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		findViewById(R.id.btn_del).setOnClickListener(new OnClickListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				selectedArray.put(currentPos, isChecked);
+			public void onClick(View v) {
+				selected.remove(currentPos);
+				mAdapter.removeView(mPager, currentPos);
+				mAdapter.notifyDataSetChanged();
+				mIndicator.notifyDataSetChanged();
+				mPager.setCurrentItem(currentPos - 1);
 				notifyCountChange();
 			}
 		});
-		findViewById(R.id.btn_confirm).setOnClickListener(
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent data = new Intent();
-						data.putStringArrayListExtra("result",
-								getCheckedItems());
-						setResult(RESULT_OK, data);
-						finish();
-					}
-				});
-	}
-
-	public ArrayList<String> getCheckedItems() {
-		ArrayList<String> mTempArry = new ArrayList<String>();
-
-		for (int i = 0; i < selected.size(); i++) {
-			if (selectedArray.get(i)) {
-				mTempArry.add(selected.get(i));
-			}
-		}
-		return mTempArry;
 	}
 
 	private void notifyCountChange() {
-		int count = getCheckedItems().size();
+		int count = selected.size();
 		if (count > 0) {
-			tvCount.setText(String.valueOf(count));
+			tvTitle.setText(mPager.getCurrentItem() + 1 + "/" + count);
 		} else {
 			setResult(RESULT_CANCELED);
 			finish();
@@ -129,12 +102,6 @@ public class ImagePreviewActivity extends Activity {
 	}
 
 	private void initPager() {
-		selected = getIntent().getStringArrayListExtra("selected");
-		selectedArray = new SparseBooleanArray();
-		for (int i = 0; i < selected.size(); i++) {
-			selectedArray.put(i, true);
-		}
-		tvTitle.setText(currentPos + 1 + "/" + selected.size());
 		mPager = (ViewPager) findViewById(R.id.vp_content);
 		mAdapter = new SimplePagerAdapter();
 		for (int i = 0; i < selected.size(); i++) {
@@ -152,14 +119,14 @@ public class ImagePreviewActivity extends Activity {
 			mAdapter.addView(iView);
 		}
 		mPager.setAdapter(mAdapter);
+
 		mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
 		mIndicator.setViewPager(mPager);
 		mIndicator.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int pos) {
 				currentPos = pos;
-				tvTitle.setText(currentPos + 1 + "/" + selected.size());
-				cbSelected.setChecked(selectedArray.get(pos));
+				notifyCountChange();
 			}
 
 			@Override
@@ -170,13 +137,5 @@ public class ImagePreviewActivity extends Activity {
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
-	}
-
-	@Override
-	public void onBackPressed() {
-		Intent data = new Intent();
-		data.putStringArrayListExtra("result", getCheckedItems());
-		setResult(RESULT_FIRST_USER, data);
-		super.onBackPressed();
 	}
 }

@@ -10,8 +10,8 @@ import android.support.v4.content.AsyncTaskLoader;
 
 import com.jerome.photoselect.beans.CategoryInfo;
 
-public class ImageFolderListLoader extends
-		AsyncTaskLoader<List<CategoryInfo>> {
+public class ImageFolderListLoader extends AsyncTaskLoader<List<CategoryInfo>> {
+
 	List<CategoryInfo> mDatas;
 	Context context;
 
@@ -30,16 +30,15 @@ public class ImageFolderListLoader extends
 				MediaStore.Images.Media.DISPLAY_NAME,
 				MediaStore.Images.Media.DATA };
 		cursor = context.getContentResolver().query(
-				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
-				"", null, "");
+				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, "",
+				null, "");
 		int folderIdColumn = cursor
 				.getColumnIndex(MediaStore.Images.Media.BUCKET_ID);
 		int folderColumn = cursor
 				.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
 		int fileNameColumn = cursor
 				.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME);
-		int pathColumn = cursor
-				.getColumnIndex(MediaStore.Images.Media.DATA);
+		int pathColumn = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
 		while (cursor.moveToNext()) {
 			CategoryInfo categoryInfo = new CategoryInfo(
 					cursor.getInt(folderIdColumn),
@@ -102,6 +101,7 @@ public class ImageFolderListLoader extends
 		super.onCanceled(categories);
 		onReleaseResources(categories);
 	}
+
 	@Override
 	protected void onReset() {
 		super.onReset();
@@ -112,6 +112,7 @@ public class ImageFolderListLoader extends
 		}
 
 	}
+
 	protected void onReleaseResources(List<CategoryInfo> categories) {
 	}
 }

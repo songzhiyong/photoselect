@@ -41,7 +41,6 @@ public class LoaderLoadActivity extends FragmentActivity {
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		int size = getResources().getDisplayMetrics().widthPixels / 3;
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getApplicationContext()).threadPoolSize(3)
 				.threadPriority(Thread.NORM_PRIORITY - 2)

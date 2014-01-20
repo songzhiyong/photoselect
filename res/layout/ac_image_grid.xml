@@ -62,19 +62,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:onClick="btnChoosePhotosClick"
         android:text="OK" />
-     <Button
+
+    <Button
         android:id="@+id/btn_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentLeft="true"
+        android:layout_centerHorizontal="true"
         android:onClick="btnPreviewClick"
         android:text="Preview" />
-    
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/btn_preview"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="btnPreview2Click"
+        android:text="Preview2" />
 
 </RelativeLayout>

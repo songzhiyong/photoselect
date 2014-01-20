@@ -36,7 +36,7 @@ import android.view.View;
  * @see
  */
 public class BitmapUtils {
-	
+
 	public static Bitmap combinedTopBottomBmp(Bitmap topBmp, Bitmap bottomBmp) {
 		if (topBmp == null) {
 			return topBmp;
@@ -73,7 +73,7 @@ public class BitmapUtils {
 		return combinedBmp;
 	}
 
-	private void saveThumbnail(View view, File file) {
+	public static void saveThumbnail(View view, File file) {
 		final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
 				view.getHeight(), Bitmap.Config.ARGB_8888);
 		final Canvas canvas = new Canvas(bitmap);

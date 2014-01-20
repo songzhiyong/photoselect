@@ -23,6 +23,12 @@ public class ScanPhotoTask extends
 		this.context = context;
 	}
 
+	public ScanPhotoTask(ProgressDialog dialog, Context context) {
+		super();
+		this.dialog = dialog;
+		this.context = context;
+	}
+
 	@Override
 	protected ArrayList<CategoryInfo> doInBackground(Void... params) {
 		ArrayList<CategoryInfo> data = getPhotoes();

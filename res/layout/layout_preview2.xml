@@ -33,15 +33,15 @@
             android:textColor="@color/top_text_color"
             android:textSize="20sp" />
 
-        <CheckBox
-            android:id="@+id/cb_select"
+        <Button
+            android:id="@+id/btn_del"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@null"
             android:gravity="center"
-            android:text="选择"
+            android:text="@string/delete"
             android:textColor="@color/top_text_color"
             android:textSize="12sp" />
     </RelativeLayout>

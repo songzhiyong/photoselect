@@ -80,9 +80,6 @@ public class GridSelectActivity extends Activity {
 
 	private void initGridView() {
 		mGridView = (GridView) findViewById(R.id.gd_photoes);
-		// mGridView.setDrawSelectorOnTop(true);
-		// mGridView.setSelector(getResources().getDrawable(
-		// R.drawable.grid_selector));
 		mAdapter = new CustomGridAdapter(this, categoryInfo.getPhotoPaths());
 		mGridView.setAdapter(mAdapter);
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
@@ -92,16 +89,12 @@ public class GridSelectActivity extends Activity {
 				PhotoInfo itemInfo = categoryInfo.getPhotoPaths().get(position);
 				System.out.println("position=" + position);
 				String path = itemInfo.getPath();
-				// CheckBox checkBox = (CheckBox) view
-				// .findViewById(R.id.cb_selected);
 				if (itemInfo.isState()) {
 					results.remove(path);
 					itemInfo.setState(false);
-					// checkBox.setChecked(false);
 				} else {
 					itemInfo.setState(true);
 					results.add(path);
-					// checkBox.setChecked(true);
 				}
 				mAdapter.notifyDataSetChanged();
 				int resultSize = results.size();
